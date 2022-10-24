@@ -9,5 +9,8 @@ public class AutoMapperProfiles : Profile
     public AutoMapperProfiles()
     {
         CreateMap<AnatomyTranslation, AnatomyTranslationDto>();
+        CreateMap<AnatomyTranslationDto, AnatomyTranslation>();
+
+
     }
 }

@@ -28,12 +28,12 @@ public class AnatomyTranslationController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<ActionResult> PostTranslation(AnatomyTranslation anatomyTranslation)
+    public async Task<ActionResult> PostTranslation(AnatomyTranslationDto anatomyTranslationDto)
     {
 
-        if (await _anatomyTranslationsRepository.CheckIfNotExistsAsync(anatomyTranslation))
+        if (await _anatomyTranslationsRepository.CheckIfNotExistsAsync(anatomyTranslationDto))
         {
-            _anatomyTranslationsRepository.AddTranslation(anatomyTranslation);
+            _anatomyTranslationsRepository.AddTranslation(anatomyTranslationDto);
             if (await _anatomyTranslationsRepository.SaveAllAsync()) return NoContent();
             return BadRequest("Nie udało się zapisać danych");
         }
