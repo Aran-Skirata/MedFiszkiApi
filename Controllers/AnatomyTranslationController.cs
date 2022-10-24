@@ -1,4 +1,5 @@
 using MedFiszkiApi.DTO;
+using MedFiszkiApi.Entities;
 using MedFiszkiApi.Extensions;
 using MedFiszkiApi.Helpers;
 using MedFiszkiApi.Interfaces;
@@ -19,10 +20,24 @@ public class AnatomyTranslationController : BaseApiController
     public async Task<ActionResult<IEnumerable<AnatomyTranslationDto>>> GetTranslations(
         [FromQuery] AnatomyTranslationsParams anatomyTranslationsParams)
     {
-        var anatomyTranslations = await _anatomyTranslationsRepository.GetTranslations(anatomyTranslationsParams);
+        var anatomyTranslations = await _anatomyTranslationsRepository.GetTranslationsAsync(anatomyTranslationsParams);
         
         Response.AddPaginationHeader(anatomyTranslations.CurrentPage,anatomyTranslations.PageSize, anatomyTranslations.TotalCount, anatomyTranslations.TotalPages);
 
         return Ok(anatomyTranslations);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> PostTranslation(AnatomyTranslation anatomyTranslation)
+    {
+
+        if (await _anatomyTranslationsRepository.CheckIfNotExistsAsync(anatomyTranslation))
+        {
+            _anatomyTranslationsRepository.AddTranslation(anatomyTranslation);
+            if (await _anatomyTranslationsRepository.SaveAllAsync()) return NoContent();
+            return BadRequest("Nie udało się zapisać danych");
+        }
+        return BadRequest("Podane tłumaczenie już istnieje");
+
     }
 }
