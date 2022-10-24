@@ -2,6 +2,7 @@
 using MedFiszkiApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedFiszkiApi.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221024075134_categoriesAndParts")]
+    partial class categoriesAndParts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -42,7 +44,7 @@ namespace MedFiszkiApi.Data.Migrations
 
                     b.HasIndex("PartId");
 
-                    b.ToTable("AnatomyTranslations", (string)null);
+                    b.ToTable("AnatomyTranslations");
                 });
 
             modelBuilder.Entity("MedFiszkiApi.Entities.Category", b =>
@@ -57,7 +59,7 @@ namespace MedFiszkiApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("MedFiszkiApi.Entities.Part", b =>
@@ -72,7 +74,7 @@ namespace MedFiszkiApi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parts", (string)null);
+                    b.ToTable("Parts");
                 });
 
             modelBuilder.Entity("MedFiszkiApi.Entities.AnatomyTranslation", b =>

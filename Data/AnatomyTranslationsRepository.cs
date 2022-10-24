@@ -21,10 +21,10 @@ public class AnatomyTranslationsRepository : IAnatomyTranslationsRepository
 
     public async Task<PagedList<AnatomyTranslationDto>> GetTranslationsAsync(AnatomyTranslationsParams anatomyTranslationsParams)
     {
-        var query = _dataContext.AnatomyTranslations.AsQueryable();
+        var query = _dataContext.AnatomyTranslations.Include(c => c.Category).Include(p => p.Part).AsQueryable();
 
-        query = query.Where(at => at.Category == anatomyTranslationsParams.Category);
-        query = query.Where(at => at.Portion == anatomyTranslationsParams.Portion);
+        query = query.Where(at => at.Category.Id == anatomyTranslationsParams.CategoryId);
+        query = query.Where(at => at.Part.Id == anatomyTranslationsParams.PartId);
 
         return await PagedList<AnatomyTranslationDto>.CreateAsync(
             query.ProjectTo<AnatomyTranslationDto>(_mapper.ConfigurationProvider).AsNoTracking(),
@@ -32,9 +32,9 @@ public class AnatomyTranslationsRepository : IAnatomyTranslationsRepository
             anatomyTranslationsParams.PageSize);
     }
 
-    public void AddTranslation(AnatomyTranslation anatomyTranslation)
+    public void AddTranslation(AnatomyTranslationDto anatomyTranslationDto)
     {
-       _dataContext.AnatomyTranslations.Add(anatomyTranslation);
+       _dataContext.AnatomyTranslations.Add(_mapper.Map<AnatomyTranslation>(anatomyTranslationDto));
     }
 
     public async Task<bool> SaveAllAsync()
@@ -42,11 +42,12 @@ public class AnatomyTranslationsRepository : IAnatomyTranslationsRepository
         return await _dataContext.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool> CheckIfNotExistsAsync(AnatomyTranslation anatomyTranslation)
+    public async Task<bool> CheckIfNotExistsAsync(AnatomyTranslationDto anatomyTranslationDto)
     {
+        
        var result = await _dataContext.AnatomyTranslations.Where(
-            at => at.InPolish.ToLower() == anatomyTranslation.InPolish.ToLower()
-                  || at.InEnglish.ToLower() == anatomyTranslation.InEnglish.ToLower()).SingleOrDefaultAsync();
+            at => at.InPolish.ToLower() == anatomyTranslationDto.InPolish.ToLower()
+                  || at.InEnglish.ToLower() == anatomyTranslationDto.InEnglish.ToLower()).SingleOrDefaultAsync();
 
        return result == null;
     }
