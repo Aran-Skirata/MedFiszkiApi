@@ -22,7 +22,7 @@ public class AnatomyTranslationController : BaseApiController
     {
         var anatomyTranslations = await _anatomyTranslationsRepository.GetTranslationsAsync(anatomyTranslationsParams);
         
-        Response.AddPaginationHeader(anatomyTranslations.CurrentPage,anatomyTranslations.PageSize, anatomyTranslations.TotalCount, anatomyTranslations.TotalPages);
+        Response.AddPaginationHeader(anatomyTranslations.CurrentPage,anatomyTranslations.TotalPages, anatomyTranslations.PageSize, anatomyTranslations.TotalCount);
 
         return Ok(anatomyTranslations);
     }
@@ -31,6 +31,8 @@ public class AnatomyTranslationController : BaseApiController
     public async Task<ActionResult> PostTranslation(AnatomyTranslationDto anatomyTranslationDto)
     {
 
+        // return BadRequest("Moduł w trakcie przygotowania"); //to prod 
+        
         if (await _anatomyTranslationsRepository.CheckIfNotExistsAsync(anatomyTranslationDto))
         {
             _anatomyTranslationsRepository.AddTranslation(anatomyTranslationDto);
