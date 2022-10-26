@@ -31,15 +31,15 @@ public class AnatomyTranslationController : BaseApiController
     public async Task<ActionResult> PostTranslation(AnatomyTranslationDto anatomyTranslationDto)
     {
 
-        // return BadRequest("Moduł w trakcie przygotowania"); //to prod 
+        return BadRequest("Moduł w trakcie przygotowania"); //to prod 
         
-        if (await _anatomyTranslationsRepository.CheckIfNotExistsAsync(anatomyTranslationDto))
-        {
-            _anatomyTranslationsRepository.AddTranslation(anatomyTranslationDto);
-            if (await _anatomyTranslationsRepository.SaveAllAsync()) return NoContent();
-            return BadRequest("Nie udało się zapisać danych");
-        }
-        return BadRequest("Podane tłumaczenie już istnieje");
+        // if (await _anatomyTranslationsRepository.CheckIfNotExistsAsync(anatomyTranslationDto))
+        // {
+        //     _anatomyTranslationsRepository.AddTranslation(anatomyTranslationDto);
+        //     if (await _anatomyTranslationsRepository.SaveAllAsync()) return NoContent();
+        //     return BadRequest("Nie udało się zapisać danych");
+        // }
+        // return BadRequest("Podane tłumaczenie już istnieje");
 
     }
 }
