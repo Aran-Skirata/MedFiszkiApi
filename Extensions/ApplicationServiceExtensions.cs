@@ -13,6 +13,7 @@ public static class ApplicationServiceExtensions
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<MedFiszkiApi.Data.DataContext>(options =>
         {
+<<<<<<< HEAD
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             string connStr;
@@ -39,6 +40,9 @@ public static class ApplicationServiceExtensions
                 connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};SSL Mode=Require;TrustServerCertificate=True";
             }
             options.UseNpgsql(connStr);
+=======
+            options.UseSqlite(config.GetConnectionString("MedFiszkiDb"));
+>>>>>>> parent of 8e2699d (Switch from SQLite to PostgreSQL)
         });
 
         return services;
