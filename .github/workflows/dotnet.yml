@@ -6,8 +6,6 @@ name: Deploy .NET to Github Pages
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -28,4 +26,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: release/wwwroot
+    - name: Change base-tag in index.html from / to MedFiszkiApi
+      run: sed -i 's/<base href="\/" \/>/<base href="\/MedFiszkiApi\/" \/>/g' release/wwwroot/index.html
     
