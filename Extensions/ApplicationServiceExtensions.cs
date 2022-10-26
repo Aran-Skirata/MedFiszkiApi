@@ -13,7 +13,7 @@ public static class ApplicationServiceExtensions
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.AddDbContext<MedFiszkiApi.Data.DataContext>(options =>
         {
-            options.UseSqlite(config.GetConnectionString("MedFiszkiDb"));
+            options.UseNpgsql(config.GetConnectionString("MedFiszkiDb"));
         });
 
         return services;
