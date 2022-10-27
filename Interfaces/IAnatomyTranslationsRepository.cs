@@ -9,9 +9,11 @@ public interface IAnatomyTranslationsRepository
 {
     Task<PagedList<AnatomyTranslationDto>> GetTranslationsAsync(AnatomyTranslationsParams anatomyTranslationsParams);
 
+    Task<AnatomyTranslationDto> GetRandomTranslation();
     void AddTranslation(AnatomyTranslationDto anatomyTranslationDto);
 
     Task<bool> SaveAllAsync();
 
     Task<bool> CheckIfNotExistsAsync(AnatomyTranslationDto anatomyTranslationDto);
+    
 }

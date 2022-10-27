@@ -27,6 +27,13 @@ public class AnatomyTranslationController : BaseApiController
         return Ok(anatomyTranslations);
     }
 
+    [HttpGet("random")]
+    public async Task<ActionResult<AnatomyTranslationDto>> GetRandomTranslation()
+    {
+        var anatomyTranslation = await _anatomyTranslationsRepository.GetRandomTranslation();
+        return Ok(anatomyTranslation);
+    }
+
     [HttpPost]
     public async Task<ActionResult> PostTranslation(AnatomyTranslationDto anatomyTranslationDto)
     {
