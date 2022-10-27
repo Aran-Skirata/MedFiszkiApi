@@ -37,6 +37,18 @@ public class AnatomyTranslationsRepository : IAnatomyTranslationsRepository
        _dataContext.AnatomyTranslations.Add(_mapper.Map<AnatomyTranslation>(anatomyTranslationDto));
     }
 
+    public async Task<AnatomyTranslationDto> GetRandomTranslation()
+    {
+        var rows = await _dataContext.AnatomyTranslations.CountAsync(at => at.Id > 0);
+        var random = new Random().Next(1,rows);
+        return (await _dataContext.AnatomyTranslations
+            .Include(at => at.Category)
+            .Include(at => at.Part)
+            .Where(at => at.Id == random)
+            .ProjectTo<AnatomyTranslationDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync())!;
+    }
+
     public async Task<bool> SaveAllAsync()
     {
         return await _dataContext.SaveChangesAsync() > 0;
