@@ -1,4 +1,4 @@
 # MedFiszkiApi
 API MedFiszki
 
-https://medfiszki.herokuapp.com/home
+https://medfiszki-aran-skirata.koyeb.app/home
